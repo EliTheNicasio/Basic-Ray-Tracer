@@ -9,8 +9,30 @@
 bool Plane::
 Intersection(const Ray& ray, std::vector<Hit>& hits) const
 {
-    // TODO
-    return false;
+    Hit hit;
+    hit.object = this;
+    hit.ray_exiting = true;
+
+    double divisor = dot(normal, ray.direction);
+
+    if(divisor == 0)
+    {
+        hit.t = 0;
+        hits.push_back(hit);
+        return true;
+    }
+    else
+    {
+        double t = dot(normal, x1 - ray.endpoint) / divisor;
+        if(t > 0)
+        {
+            hit.t = t;
+            hits.push_back(hit);
+            return true;
+        }
+        else
+            return false;
+    }
 }
 
 vec3 Plane::

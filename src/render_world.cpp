@@ -26,19 +26,21 @@ Render_World::~Render_World()
 Object* Render_World::Closest_Intersection(const Ray& ray,Hit& hit)
 {
     double min_t = std::numeric_limits<double>::max();
-    Object* closest_object = objects[0];    
+    Object* closest_object = NULL;    
     
     for(size_t i = 0; i < objects.size(); i++)
     {
 	std::vector<Hit> hits;
-	objects[i]->Intersection(ray, hits);
-        for(size_t j = 0; j < hits.size(); j++)
+	if(objects[i]->Intersection(ray, hits))
         {
-            if(hits[j].t < min_t && hits[j].t > small_t)
+            for(size_t j = 0; j < hits.size(); j++)
             {
-                closest_object = objects[i];
-                hit = hits[j];
-                min_t = hits[j].t;
+                if(hits[j].t < min_t && hits[j].t > small_t)
+                {
+                    closest_object = objects[i];
+                    hit = hits[j];
+                    min_t = hits[j].t;
+                }
             }
         }
     }
@@ -65,10 +67,22 @@ void Render_World::Render()
 // or the background color if there is no object intersection
 vec3 Render_World::Cast_Ray(const Ray& ray,int recursion_depth)
 {
-    // TODO
     vec3 color;
+    Hit hit;
+
+    Object* obj = Closest_Intersection(ray, hit);
 
     // determine the color here
-
+    // NOTE: Remove and fix dummy for future tests
+    if(obj != NULL)
+    {
+        vec3 dummy;
+        color = obj->material_shader->Shade_Surface(ray, dummy, dummy, 1, false);
+    }
+    else
+    {
+        vec3 dummy;
+        color = background_shader->Shade_Surface(ray, dummy, dummy, 1, false);
+    }
     return color;
 }

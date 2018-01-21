@@ -11,7 +11,7 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
     vec3 color;
 
     // For Ambient
-    
+    color += world.ambient_color * world.ambient_intensity * color_ambient;
 
     // For loop for each light
     for(size_t i = 0; i < world.lights.size(); i++)

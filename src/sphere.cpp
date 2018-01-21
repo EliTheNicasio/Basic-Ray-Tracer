@@ -25,7 +25,7 @@ bool Sphere::Intersection(const Ray& ray, std::vector<Hit>& hits) const
         hit1.object = this;
         hit2.object = this;
 
-        hit1.ray_exiting = true;
+        hit1.ray_exiting = false;
         hit2.ray_exiting = true;
 
         if(discr == 0)
@@ -60,6 +60,8 @@ bool Sphere::Intersection(const Ray& ray, std::vector<Hit>& hits) const
 vec3 Sphere::Normal(const vec3& point) const
 {
     vec3 normal;
-    // TODO: set the normal
+    
+    normal = (point - center).normalized();
+
     return normal;
 }

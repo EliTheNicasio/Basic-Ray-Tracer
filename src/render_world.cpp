@@ -76,8 +76,8 @@ vec3 Render_World::Cast_Ray(const Ray& ray,int recursion_depth)
     // NOTE: Remove and fix dummy for future tests
     if(obj != NULL)
     {
-        vec3 dummy;
-        color = obj->material_shader->Shade_Surface(ray, dummy, dummy, 1, false);
+        vec3 intersec = ray.Point(hit.t);
+        color = obj->material_shader->Shade_Surface(ray, intersec, obj->Normal(intersec), 1, false);
     }
     else
     {

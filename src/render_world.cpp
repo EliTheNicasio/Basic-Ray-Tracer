@@ -73,7 +73,6 @@ vec3 Render_World::Cast_Ray(const Ray& ray,int recursion_depth)
     Object* obj = Closest_Intersection(ray, hit);
 
     // determine the color here
-    // NOTE: Remove and fix dummy for future tests
     if(obj != NULL)
     {
         vec3 intersec = ray.Point(hit.t);

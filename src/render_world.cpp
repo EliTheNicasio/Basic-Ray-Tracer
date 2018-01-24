@@ -44,7 +44,6 @@ Object* Render_World::Closest_Intersection(const Ray& ray,Hit& hit)
             }
         }
     }
-
     return closest_object;
 }
 

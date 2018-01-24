@@ -20,13 +20,17 @@ Intersection(const Ray& ray, std::vector<Hit>& hits) const
         hit.t = 0;
         hits.push_back(hit);
         return true;
+//        return false;
     }
     else
     {
         double t = dot(normal, x1 - ray.endpoint) / divisor;
         if(t > 0)
         {
-            hit.t = t;
+        //    if(dot(normal, ray.Point(0)) < 0)
+        //        hit.t = 0;
+        //    else
+                hit.t = t;
             hits.push_back(hit);
             return true;
         }

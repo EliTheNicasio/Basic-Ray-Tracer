@@ -17,20 +17,26 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
     for(size_t i = 0; i < world.lights.size(); i++)
     {
         Hit shadowHit;
-        Ray shadowRay(ray.Point, 
+        Ray shadowRay(intersection_point, 
                       (world.lights[i]->position - intersection_point).normalized());
-        shadowRay.endpoint = shadowRay.Point(2);
+        shadowRay.endpoint = shadowRay.Point(.001);
+
+        Object* obj = world.Closest_Intersection(shadowRay, shadowHit);
+        //std::cout << shadowHit.t << std::endl;
+
+        // lightVector is vector from point to light
+        vec3 lightVector = (world.lights[i]->position - intersection_point).normalized();
 
         if(!world.enable_shadows 
-           || (world.Closest_Intersection(shadowRay, shadowHit) == NULL && world.enable_shadows))
+           || (obj == NULL && world.enable_shadows)
+           || ((lightVector - intersection_point).magnitude() 
+              <= (shadowRay.Point(shadowHit.t) - intersection_point).magnitude() && world.enable_shadows)) 
         {
             double distance = (intersection_point - world.lights[i]->position).magnitude();
             double divisor = distance * distance;
             // illum is light intensity
             vec3 illum = world.lights[i]->Emitted_Light(ray) / (divisor);
  
-            // lightVector is vector from point to light
-            vec3 lightVector = (world.lights[i]->position - intersection_point).normalized();
 
             // For Diffuse
             color += illum  * color_diffuse 

@@ -22,7 +22,6 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
         shadowRay.endpoint = shadowRay.Point(.001);
 
         Object* obj = world.Closest_Intersection(shadowRay, shadowHit);
-        //std::cout << shadowHit.t << std::endl;
 
         // lightVector is vector from point to light
         vec3 lightVector = (world.lights[i]->position - intersection_point).normalized();

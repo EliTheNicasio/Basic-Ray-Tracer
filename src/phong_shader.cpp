@@ -28,11 +28,13 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
 
         if(!world.enable_shadows 
            || (obj == NULL && world.enable_shadows)
-           || ((lightVector - intersection_point).magnitude() 
-              <= (shadowRay.Point(shadowHit.t) - intersection_point).magnitude() && world.enable_shadows)) 
+           || ((world.lights[i]->position - intersection_point).magnitude() 
+              <= (shadowRay.Point(shadowHit.t) - intersection_point).magnitude() 
+              && world.enable_shadows)) 
         {
             double distance = (intersection_point - world.lights[i]->position).magnitude();
             double divisor = distance * distance;
+
             // illum is light intensity
             vec3 illum = world.lights[i]->Emitted_Light(ray) / (divisor);
  
@@ -45,6 +47,7 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
         
             // ref is reflection of lightVector
             vec3 ref = -1.0 * lightVector + 2.0 * (dot(lightVector, same_side_normal)) * same_side_normal;
+
             // viewer is vector to viewer, or the camera in this case
             vec3 viewer = (world.camera.position - intersection_point).normalized();
 

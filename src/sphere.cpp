@@ -25,18 +25,21 @@ bool Sphere::Intersection(const Ray& ray, std::vector<Hit>& hits) const
         hit1.object = this;
         hit2.object = this;
 
-        hit1.ray_exiting = false;
-        hit2.ray_exiting = true;
 
         if(discr == 0)
         {
             double t = (-1 * b) / (2 * a);
             if(t > 0)
             {
-                hit1.t = 0;
+        /*        hit1.t = 0;
                 hit2.t = t;
                 hits.push_back(hit1);
-                hits.push_back(hit2);
+                hits.push_back(hit2);*/
+                Hit hit;
+                hit.object = this;
+                hit.t = t;
+                hit.ray_exiting = true;
+                hits.push_back(hit);
             }
         }
         else
@@ -45,13 +48,18 @@ bool Sphere::Intersection(const Ray& ray, std::vector<Hit>& hits) const
             if(((-1 * b) - sqrt(discr)) / (2 * a) > 0)
             {
                 hit1.t = ((-1 * b) - sqrt(discr)) / (2 * a);
+                hit1.ray_exiting = false;
                 hits.push_back(hit1);
             }
-            if(((-1 * b) + sqrt(discr)) / (2 * a) > 0)
+            else
             {
-                hit2.t = ((-1 * b) + sqrt(discr)) / (2 * a);
-                hits.push_back(hit2);
+                hit1.t = 0;
+                hit1.ray_exiting = false;
+                hits.push_back(hit1);
             }
+            hit2.t = ((-1 * b) + sqrt(discr)) / (2 * a);
+            hit2.ray_exiting = true;
+            hits.push_back(hit2);
         }
         return true;
     }

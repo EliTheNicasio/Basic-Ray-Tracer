@@ -11,22 +11,32 @@ Intersection(const Ray& ray, std::vector<Hit>& hits) const
 {
     Hit hit;
     hit.object = this;
-    hit.ray_exiting = true;
+    hit.ray_exiting = false;
 
     double divisor = dot(normal, ray.direction);
 
     if(divisor == 0)
     {
-        hit.t = 0;
+       /* hit.t = 0;
         hits.push_back(hit);
-        return true;
+        return true;*/
+        return false;
     }
     else
     {
         double t = dot(normal, x1 - ray.endpoint) / divisor;
         if(t > 0)
         {
-                hit.t = t;
+            if(dot(normal, x1 - ray.endpoint) < 0)
+            {
+                Hit inHit;
+                inHit.object = this;
+                inHit.ray_exiting = false;
+                inHit.t = 0;
+                hits.push_back(inHit);
+                //hit.ray_exiting = true;
+            }
+            hit.t = t;
             hits.push_back(hit);
             return true;
         }

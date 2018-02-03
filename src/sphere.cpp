@@ -34,12 +34,13 @@ bool Sphere::Intersection(const Ray& ray, std::vector<Hit>& hits) const
         /*        hit1.t = 0;
                 hit2.t = t;
                 hits.push_back(hit1);
-                hits.push_back(hit2);*/
+                hits.push_back(hit2);
                 Hit hit;
                 hit.object = this;
                 hit.t = t;
                 hit.ray_exiting = true;
-                hits.push_back(hit);
+                hits.push_back(hit);*/
+                return false;
             }
         }
         else
